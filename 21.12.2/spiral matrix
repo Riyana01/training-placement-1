@@ -1,0 +1,42 @@
+class Solution {
+    public List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> spiral=new ArrayList<>();
+        int top=0,left=0;
+        int right=matrix[0].length-1;
+        int bottom=matrix.length-1;
+// Continue traversal until all rows and columns are covered
+        while(top<=bottom && left<=right){
+    // 1. Traverse from LEFT to RIGHT on the top row
+            for(int i=left;i<=right;i++){
+                spiral.add(matrix[top][i]);
+            }
+        // Move the top boundary down since the top row is processed
+            top++;
+    // 2. Traverse from TOP to BOTTOM on the rightmost column
+            for(int i=top;i<=bottom;i++){
+                spiral.add(matrix[i][right]);
+            }
+        // Move the right boundary left since the right column is processed
+            right--;
+            if(top<=bottom){
+    // 3. Traverse from RIGHT to LEFT on the bottom row
+    // Check to avoid re-traversal when only one row is left
+            for(int i=right;i>=left;i--){
+                spiral.add(matrix[bottom][i]);
+            }
+        // Move the bottom boundary up after processing
+            bottom--;
+            }
+    // 4. Traverse from BOTTOM to TOP on the leftmost column
+    // Check to avoid re-traversal when only one column is left
+            if(left<=right){
+            for(int i=bottom;i>=top;i--){
+                spiral.add(matrix[i][left]);
+            }
+        // Move the left boundary right after processing
+            left++;
+            }
+        }
+        return spiral;
+    }
+}
