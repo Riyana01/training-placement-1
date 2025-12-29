@@ -1,0 +1,62 @@
+class Solution {
+    int m, n;
+
+    public int calculateMinimumHP(int[][] dungeon) {
+        m = dungeon.length;
+        n = dungeon[0].length;
+
+        // Binary Search Range
+        int low = 1;
+        int high = 200 * 1000 + 1; // Max possible required health
+        int ans = high;
+
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            
+            // Check if we can survive with 'mid' using pure recursion
+            if (checkRecursion(0, 0, mid, dungeon)) {
+                ans = mid;      // Possible, try smaller health to find minimum
+                high = mid - 1;
+            } else {
+                low = mid + 1;  // Impossible, need more health
+            }
+        }
+        return ans;
+    }
+
+    // Pure Recursive function (DFS) without Memoization
+    // Returns true if knight can reach bottom-right from (i, j) with 'currentHealth'
+    private boolean checkRecursion(int i, int j, int currentHealth, int[][] dungeon) {
+        // 1. Calculate health after entering this room
+        currentHealth += dungeon[i][j];
+
+        // 2. If dead, stop this path immediately
+        if (currentHealth <= 0) {
+            return false;
+        }
+
+        // 3. Base Case: Reached Princess (Bottom-Right)
+        if (i == m - 1 && j == n - 1) {
+            return true;
+        }
+
+        // 4. Recursive Step: Try moving Right and Down
+        boolean canGoRight = false;
+        boolean canGoDown = false;
+
+        // Move Right
+        if (j + 1 < n) {
+            canGoRight = checkRecursion(i, j + 1, currentHealth, dungeon);
+        }
+        
+        // Optimization: If Right path works, return true immediately
+        if (canGoRight) return true;
+
+        // Move Down
+        if (i + 1 < m) {
+            canGoDown = checkRecursion(i + 1, j, currentHealth, dungeon);
+        }
+
+        return canGoDown;
+    }
+}
