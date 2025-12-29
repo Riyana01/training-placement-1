@@ -1,62 +1,26 @@
 class Solution {
     int m, n;
-
+    int[][] memo;
     public int calculateMinimumHP(int[][] dungeon) {
         m = dungeon.length;
         n = dungeon[0].length;
-
-        // Binary Search Range
-        int low = 1;
-        int high = 200 * 1000 + 1; // Max possible required health
-        int ans = high;
-
-        while (low <= high) {
-            int mid = low + (high - low) / 2;
-            
-            // Check if we can survive with 'mid' using pure recursion
-            if (checkRecursion(0, 0, mid, dungeon)) {
-                ans = mid;      // Possible, try smaller health to find minimum
-                high = mid - 1;
-            } else {
-                low = mid + 1;  // Impossible, need more health
-            }
-        }
-        return ans;
+        memo = new int[m][n];
+        return addordrop(0, 0, dungeon);
     }
-
-    // Pure Recursive function (DFS) without Memoization
-    // Returns true if knight can reach bottom-right from (i, j) with 'currentHealth'
-    private boolean checkRecursion(int i, int j, int currentHealth, int[][] dungeon) {
-        // 1. Calculate health after entering this room
-        currentHealth += dungeon[i][j];
-
-        // 2. If dead, stop this path immediately
-        if (currentHealth <= 0) {
-            return false;
+    int addordrop(int i, int j, int[][] dungeon) {
+        if (i >= m || j >= n) {
+            return Integer.MAX_VALUE;
         }
-
-        // 3. Base Case: Reached Princess (Bottom-Right)
+        if (memo[i][j] != 0) {
+            return memo[i][j];
+        }
         if (i == m - 1 && j == n - 1) {
-            return true;
+            return memo[i][j] = Math.max(1, 1 - dungeon[i][j]);
         }
-
-        // 4. Recursive Step: Try moving Right and Down
-        boolean canGoRight = false;
-        boolean canGoDown = false;
-
-        // Move Right
-        if (j + 1 < n) {
-            canGoRight = checkRecursion(i, j + 1, currentHealth, dungeon);
-        }
-        
-        // Optimization: If Right path works, return true immediately
-        if (canGoRight) return true;
-
-        // Move Down
-        if (i + 1 < m) {
-            canGoDown = checkRecursion(i + 1, j, currentHealth, dungeon);
-        }
-
-        return canGoDown;
+        int right = addordrop(i, j + 1, dungeon);
+        int down  = addordrop(i + 1, j, dungeon);
+        int minNext = Math.min(right, down);
+        memo[i][j] = Math.max(1, minNext - dungeon[i][j]);
+        return memo[i][j];
     }
 }
