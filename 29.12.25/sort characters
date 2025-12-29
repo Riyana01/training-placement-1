@@ -1,0 +1,15 @@
+class Solution(object):
+
+    def frequencySort(self, s):
+
+        freq = Counter(s)
+
+        sorted_chars = sorted(freq.keys(), key = lambda x : freq[x], reverse = True)
+
+        res = []
+
+        for ch in sorted_chars:
+
+            res.append(ch * freq[ch])
+
+        return "".join(res)
