@@ -1,0 +1,14 @@
+class Solution(object):
+    def countRangeSum(self, nums, lower, upper):
+        """
+        :type nums: List[int]
+        :type lower: int
+        :type upper: int
+        :rtype: int
+        """
+        prefix,thisSum,ans = [0],0,0
+        for n in nums:
+            thisSum += n
+            ans += bisect.bisect_right(prefix, thisSum-lower) - bisect.bisect_left(prefix, thisSum-upper)
+            bisect.insort(prefix, thisSum)
+        return ans
