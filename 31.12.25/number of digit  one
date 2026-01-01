@@ -1,0 +1,28 @@
+class Solution(object):
+    def countDigitOne(self, n):
+        f=str(n)
+        k=len(f)
+        c=0
+        for i in range(k-1):
+            j=f[i]
+            if j!="1" and j!="0":
+                h=0
+                j=int(j)
+                h=10+j
+                for m in range(k-i-2):
+                    h=h*10+j*(10**(m+1))
+                c=c+h
+            if j=="1":
+                h=0
+                h=int(f[i+1::])+(k-i-1)*10**(k-i-2)+1
+                c=c+h
+        if f[k-1]=="0":
+            return c
+        else:
+            return c+1
+            
+
+            
+                
+
+        
