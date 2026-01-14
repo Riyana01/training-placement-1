@@ -1,0 +1,34 @@
+//.        Solution 1 (Recursion) 
+
+// class Solution {
+//     public int helper(int sum,int n,int prev,boolean isCopied){
+
+//         if(sum>n) return 10000;
+//         if(sum==n) return 0;
+//         if(isCopied==true){
+//             return 1+helper(sum+prev,n,prev,false);
+//         }
+//         return 1+Math.min(helper(sum+prev,n,prev,isCopied),helper(sum,n,sum,true));
+//     }
+//     public int minSteps(int n) {
+//         if(n==1) return 0;
+//         return 1+helper(1,n,1,false);
+//     }
+// }
+
+//Solution 2 (Math)
+
+class Solution {
+public int minSteps(int n) {
+        int i=2;
+        int sum=0;
+        while(i<=n){
+            while(n%i==0){
+                n=n/i;
+                sum+=i;
+            }
+            i++;
+        }
+        return sum;
+    }
+}
