@@ -1,0 +1,136 @@
+class MyLinkedList {
+    Node head ;
+    Node tail ;
+
+    int size = 0 ;
+
+    public class Node {
+        int val;
+        Node next;
+
+        Node(int val) {
+            this.val = val;
+        }
+    }
+
+    public int get(int index){
+        // to be imporatent edge case is that at a point whwere we have to inert at an index or something please keep this condition in mind this below condition
+        if(index < 0 || index >= size){
+            return -1;
+        }
+        Node temp = head ;
+        for(int i = 0 ; i < index ; i++){
+            temp = temp.next ;
+        }
+
+        if(temp == null){
+            return -1 ;
+        }
+
+        return temp.val ;
+    }
+
+    public void addAtHead(int val){
+        Node nn = new Node(val);
+        nn.next = head ;
+        head = nn ;
+        if(tail== null){
+            tail = head ;
+        }
+        size++;
+    }
+
+    public void addAtTail(int val){
+        
+        if(tail == null){
+            addAtHead(val);
+            return;
+        }
+        Node nn = new Node(val);
+        tail.next = nn ;
+        tail = nn ;
+        nn.next = null ;
+        size++;
+    }
+
+    public void addAtIndex(int index ,int val){
+        // to be imporatent edge case is that at a point whwere we have to inert at an index or something please keep this condition in mind this below condition
+        if(index < 0 || index > size){
+            return ;
+        }
+        if(index == 0){
+            addAtHead(val);
+            return;
+        }
+        if(index == size){
+            addAtTail(val);
+            return;
+        }
+        Node temp = head ;
+
+        Node nn = new Node(val);
+        
+        for(int i = 0 ; i < index - 1 ; i++){
+            temp = temp.next ;
+        }
+
+        nn.next = temp.next ;
+        temp.next = nn ;
+        size++;
+    }
+
+    public void deleteAtIndex(int index){
+        // to be imporatent edge case is that at a point whwere we have to inert at an index or something please keep this condition in mind
+        if(index < 0 || index >= size){
+            return ;
+        }
+
+        if(index == 0){
+            deletefirst();
+            return ;
+        }
+
+        if(index + 1 == size){
+            deletelast();
+            return;
+        }
+
+        Node temp = head ;
+        
+        for(int i = 0 ; i < index - 1 ; i++){
+            temp = temp.next ;
+        }
+
+        temp.next = temp.next.next ;
+        size--;
+    }
+
+    public void deletefirst(){
+        if(head == null){
+            return ;
+        }
+        head = head.next ;
+        if(head == null){
+            tail = null ;
+        }
+        size--;
+    }
+
+    public void deletelast(){
+        if(size<=1){
+            deletefirst();
+            return ;
+        }
+
+        Node temp = head ;
+
+        while(temp.next != tail){
+            temp = temp.next ;
+        }
+        temp.next = null ;
+        tail = temp ;
+        size--;
+
+    }
+
+}
