@@ -1,0 +1,22 @@
+class Solution {
+    public int alternateDigitSum(int n) {
+       int sum=0;
+       int i=-1;
+int count=0,temp=n;
+       while(temp>0){
+        temp/=10;
+        count++;
+       }
+if(count%2!=0){
+i=1;
+}
+   while(n>0){
+            int digit=n%10;
+            n/=10;
+          
+           sum+=digit*(i);
+           i*=(-1);
+          }
+          return sum;
+    }
+}
