@@ -1,0 +1,25 @@
+class Solution {
+    public long pickGifts(int[] nums, int k) {
+        PriorityQueue<Long> pq = new PriorityQueue<>(Comparator.reverseOrder());
+        for(int e :nums){
+            pq.add((long) e);
+        }
+
+        while(k>0) {
+            long max = pq.peek();
+            long num = (long) Math.floor(Math.sqrt(max));
+            pq.remove(max);
+            pq.add(num);
+            k--;
+        }
+       // System.out.println(pq);
+        long sum =0;
+        for(long e :pq){
+            sum+=e;
+        }
+       // System.out.println(sum);
+        return sum;
+
+    }
+}
+//2192086545
