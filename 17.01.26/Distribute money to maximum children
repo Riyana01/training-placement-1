@@ -1,0 +1,33 @@
+class Solution {
+    public int distMoney(int money, int children) {
+        // Rule 1: Every child needs at least $1.
+        if (money < children) return -1;
+
+        // Give everyone $1 first.
+        money -= children;
+
+        // We want to see how many people can get the remaining $7 to reach $8.
+        int count = money / 7;
+        int remainingMoney = money % 7;
+        int remainingChildren = children - count;      
+
+        // Case 1: More than enough money to give everyone $8.
+        if (count == children) {
+            return remainingMoney == 0 ? count : count - 1;
+        }
+
+        // Case 2: Everyone gets $8 and there is still money left over.
+        if (count > children) {
+            return children - 1;
+        }
+
+        // Case 3: We have a "4 dollar" conflict.
+        // If 1 child is left and they have exactly 3 dollars (bringing their total to 4).
+        if (remainingChildren == 1 && remainingMoney == 3) {
+            return count - 1;
+        }
+
+        return count;        
+
+    }
+}
