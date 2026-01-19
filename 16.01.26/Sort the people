@@ -1,0 +1,49 @@
+class Solution {
+        public static void mergeSort(int l,int r,int[] h,String[]ns){
+            if(l<r){
+                int mid = l+(r-l)/2;
+                mergeSort(l,mid,h,ns);
+
+                mergeSort(mid+1,r,h,ns);
+
+                merge (l,r,mid,h,ns);
+            }
+        } 
+
+        public static void merge(int l, int r , int mid,int[] arr1,String []arr2){
+            int i =l;
+            int j= mid +1;
+            int [] temp = new int[r-l+1];
+            String[] temp2 = new String[r-l+1];
+            int k = 0;
+
+            while(i<=mid && j<= r){
+            if(arr1[i]>=arr1[j]){
+                temp[k] = arr1[i];
+                temp2[k++] = arr2[i++];
+            }
+            else {
+                temp[k] = arr1[j];
+                temp2[k++] = arr2[j++];
+            }
+            }
+            while(i<=mid){
+              temp[k] = arr1[i]; 
+               temp2[k++] = arr2[i++];  
+            }
+            while(j<=r){
+                 temp[k] = arr1[j];
+             temp2[k++] = arr2[j++];
+            }
+            for(int p=0;p<temp.length;p++){
+                arr1[l+p] = temp[p];
+                arr2[l+p] = temp2[p];
+            }
+        }
+    public String[] sortPeople(String[] names, int[] heights) {
+        int n = heights.length;
+    mergeSort(0,n-1,heights,names);
+ 
+    return names;
+    }
+}
