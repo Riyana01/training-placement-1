@@ -1,0 +1,32 @@
+class Solution {
+    public String oddString(String[] words) {
+        // Compute diff arrays for first two words
+        int[] diff0 = getDiff(words[0]);
+        int[] diff1 = getDiff(words[1]);
+
+        // If first two differ, compare with the third to find the odd one
+        if (!Arrays.equals(diff0, diff1)) {
+            int[] diff2 = getDiff(words[2]);
+            return Arrays.equals(diff0, diff2) ? words[1] : words[0];
+        }
+
+        // Otherwise, diff0 == diff1, so the odd one is somewhere later
+        for (int i = 2; i < words.length; i++) {
+            if (!Arrays.equals(diff0, getDiff(words[i]))) {
+                return words[i];
+            }
+        }
+
+        return "";
+    }
+
+    // Helper to compute difference array for a word
+    private int[] getDiff(String word) {
+        int n = word.length();
+        int[] diff = new int[n - 1];
+        for (int i = 1; i < n; i++) {
+            diff[i - 1] = word.charAt(i) - word.charAt(i - 1);
+        }
+        return diff;
+    }
+}
